@@ -1,0 +1,31 @@
+# This is a configuration file for a Google Cloud Run service.
+#
+# Before you can deploy, you need to:
+# 1.  Enable the Cloud Run and Artifact Registry APIs in your Google Cloud project.
+# 2.  Install and configure the Google Cloud CLI (`gcloud`).
+# 3.  Replace `YOUR_PROJECT_ID` below with your actual Google Cloud project ID.
+#
+# How to deploy:
+#
+# 1.  Build the Docker image and push it to Google Artifact Registry:
+#     gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/cloud-run-test .
+#
+# 2.  Deploy the service to Cloud Run using this file:
+#     gcloud run services replace app.yml --region YOUR_REGION
+#     (e.g., --region us-central1)
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: cloud-run-test
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/Fertitude-Beta/cloud-run-test
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
